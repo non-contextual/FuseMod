@@ -27,16 +27,21 @@ import net.minecraft.world.level.Level;
  * 融合/解除融合交互逻辑。
  *
  * 操作方式：
- *   融合：主手持武器 + 副手持可融合材料 → 右键（不下蹲）
- *   解除：主手持已融合武器 → 下蹲 + 右键
+ *   融合：主手持可融合装备 + 副手持可融合材料 → 下蹲 + 右键
+ *   解除：主手持已融合装备 → 下蹲 + 右键
  *
- * 使用副手方案而非 UseEntityCallback（右键掉落物），原因：
- *   - ItemEntity hitbox 极小，玩家接近时自动拾取，根本没机会右键
- *   - 副手方案更直观，也更接近 TotK 的"手持材料靠近武器融合"体验
+ * Phase A 支持的装备类型（均通过 ItemTag 判断，MC 1.21.11 已移除 SwordItem/DiggerItem 等类）：
+ *   武器类：ItemTags.SWORDS, ItemTags.AXES, TridentItem → 攻击力加成
+ *   挖掘工具：ItemTags.PICKAXES, ItemTags.SHOVELS, ItemTags.HOES → 挖掘效率加成
+ *   盾牌：ShieldItem → 接受融合，显示 tooltip，Phase B 实现实际效果
  */
 public final class FuseHandler {
 
+    /** 攻击力 modifier 唯一 ID */
     static final Identifier FUSE_MODIFIER_ID = Identifier.fromNamespaceAndPath("fusemod", "fuse_attack_bonus");
+
+    /** 挖掘效率 modifier 唯一 ID（对应 Attributes.MINING_EFFICIENCY） */
+    static final Identifier FUSE_MINING_MODIFIER_ID = Identifier.fromNamespaceAndPath("fusemod", "fuse_mining_bonus");
 
     public static void registerEvents() {
         registerFuseAndUnfuseEvent();
@@ -44,18 +49,7 @@ public final class FuseHandler {
     }
 
     // =========================================================================
-    // 融合 / 解除融合：统一入口，均需下蹲 + 右键
-    //
-    // 为什么两个操作都要求下蹲：
-    //   UseItemCallback 在 Fabric 中独立于 UseEntityCallback / UseBlockCallback
-    //   触发，不受它们的返回值影响。若不下蹲，普通右键（如右键村民、右键容器）
-    //   也会意外触发融合。下蹲 + 右键点击方块/实体时，UseBlockCallback /
-    //   UseEntityCallback 会先消费交互，UseItemCallback 仍会触发但此时
-    //   玩家已处于交互状态，副手材料不会改变，是可接受的边界情况。
-    //
-    // 区分融合 vs 解除融合：
-    //   武器已有 FUSE_DATA → 解除融合
-    //   武器无 FUSE_DATA + 副手有可融合材料 → 融合
+    // 融合 / 解除融合：下蹲 + 右键
     // =========================================================================
     private static void registerFuseAndUnfuseEvent() {
         UseItemCallback.EVENT.register((player, world, hand) -> {
@@ -63,18 +57,18 @@ public final class FuseHandler {
             if (hand != InteractionHand.MAIN_HAND) return InteractionResult.PASS;
             if (!player.isShiftKeyDown()) return InteractionResult.PASS;
 
-            ItemStack weapon = player.getMainHandItem();
-            if (!isWeapon(weapon)) return InteractionResult.PASS;
+            ItemStack equipment = player.getMainHandItem();
+            if (!isFuseableEquipment(equipment)) return InteractionResult.PASS;
 
-            FuseData existingFuse = weapon.get(FuseComponents.FUSE_DATA);
+            FuseData existingFuse = equipment.get(FuseComponents.FUSE_DATA);
 
-            // --- 解除融合路径 ---
+            // --- 解除融合 ---
             if (existingFuse != null) {
-                removeFuse(weapon, existingFuse, player, world);
+                removeFuse(equipment, existingFuse, player, world);
                 return InteractionResult.SUCCESS;
             }
 
-            // --- 融合路径 ---
+            // --- 融合 ---
             ItemStack offHand = player.getOffhandItem();
             if (offHand.isEmpty()) return InteractionResult.PASS;
 
@@ -88,15 +82,14 @@ public final class FuseHandler {
             }
 
             String materialName = new ItemStack(offHand.getItem()).getHoverName().getString();
-
-            applyFuse(weapon, Identifier.parse(materialId), bonus);
+            applyFuse(equipment, Identifier.parse(materialId), bonus);
             offHand.shrink(1);
 
             player.displayClientMessage(
                 Component.translatable("fusemod.fuse.success",
                     materialName,
-                    weapon.getHoverName().getString(),
-                    String.format("+%.0f", bonus.attackBonus())
+                    equipment.getHoverName().getString(),
+                    buildBonusInfo(equipment, bonus)
                 ),
                 true
             );
@@ -121,11 +114,9 @@ public final class FuseHandler {
             if (bonus.fireTicks() > 0) {
                 entity.igniteForTicks(bonus.fireTicks());
             }
-
             if (bonus.knockback() > 0 && entity instanceof LivingEntity target) {
                 applyExtraKnockback(player, target, bonus.knockback());
             }
-
             return InteractionResult.PASS;
         });
     }
@@ -133,51 +124,72 @@ public final class FuseHandler {
     // =========================================================================
     // 写入融合数据
     // =========================================================================
-    private static void applyFuse(ItemStack weapon, Identifier materialId, FuseMaterialBonus bonus) {
-        weapon.set(FuseComponents.FUSE_DATA, new FuseData(materialId));
+    private static void applyFuse(ItemStack equipment, Identifier materialId, FuseMaterialBonus bonus) {
+        equipment.set(FuseComponents.FUSE_DATA, new FuseData(materialId));
 
-        if (bonus.attackBonus() > 0) {
-            ItemAttributeModifiers existing = weapon.getOrDefault(
-                DataComponents.ATTRIBUTE_MODIFIERS,
-                ItemAttributeModifiers.EMPTY
-            );
-
-            ItemAttributeModifiers.Builder builder = ItemAttributeModifiers.builder();
-            existing.modifiers().forEach(entry ->
-                builder.add(entry.attribute(), entry.modifier(), entry.slot())
-            );
-            builder.add(
-                Attributes.ATTACK_DAMAGE,
-                new AttributeModifier(
-                    FUSE_MODIFIER_ID,
-                    bonus.attackBonus(),
-                    AttributeModifier.Operation.ADD_VALUE
-                ),
-                EquipmentSlotGroup.MAINHAND
-            );
-
-            weapon.set(DataComponents.ATTRIBUTE_MODIFIERS, builder.build());
+        if (isWeaponLike(equipment)) {
+            // 武器：攻击力加成
+            if (bonus.attackBonus() > 0) {
+                appendAttributeModifier(equipment, Attributes.ATTACK_DAMAGE,
+                    FUSE_MODIFIER_ID, bonus.attackBonus());
+            }
+        } else if (isToolLike(equipment)) {
+            // 挖掘工具（非斧）：挖掘效率加成
+            // Attributes.MINING_EFFICIENCY 在 MC 1.21.11 中对应 minecraft:mining_efficiency
+            if (bonus.miningSpeedBonus() > 0) {
+                appendAttributeModifier(equipment, Attributes.MINING_EFFICIENCY,
+                    FUSE_MINING_MODIFIER_ID, bonus.miningSpeedBonus());
+            }
         }
+        // 盾牌：仅设置 FUSE_DATA，Phase B 实现实际效果
+    }
+
+    /**
+     * 追加 attribute modifier 到 ItemStack 的 ATTRIBUTE_MODIFIERS DataComponent。
+     * 保留所有现有 modifier（vanilla 基础值、其他 mod 注入的值），追加而非替换。
+     */
+    private static void appendAttributeModifier(
+            ItemStack stack,
+            net.minecraft.core.Holder<net.minecraft.world.entity.ai.attributes.Attribute> attribute,
+            Identifier modifierId,
+            double value) {
+        ItemAttributeModifiers existing = stack.getOrDefault(
+            DataComponents.ATTRIBUTE_MODIFIERS,
+            ItemAttributeModifiers.EMPTY
+        );
+        ItemAttributeModifiers.Builder builder = ItemAttributeModifiers.builder();
+        existing.modifiers().forEach(entry ->
+            builder.add(entry.attribute(), entry.modifier(), entry.slot())
+        );
+        builder.add(
+            attribute,
+            new AttributeModifier(modifierId, value, AttributeModifier.Operation.ADD_VALUE),
+            EquipmentSlotGroup.MAINHAND
+        );
+        stack.set(DataComponents.ATTRIBUTE_MODIFIERS, builder.build());
     }
 
     // =========================================================================
     // 移除融合数据
     // =========================================================================
-    private static void removeFuse(ItemStack weapon, FuseData fuseData, Player player, Level world) {
-        weapon.remove(FuseComponents.FUSE_DATA);
+    private static void removeFuse(ItemStack equipment, FuseData fuseData, Player player, Level world) {
+        equipment.remove(FuseComponents.FUSE_DATA);
 
-        ItemAttributeModifiers existing = weapon.getOrDefault(
+        // 移除融合注入的所有 modifier（攻击力 + 挖掘效率），保留其余
+        ItemAttributeModifiers existing = equipment.getOrDefault(
             DataComponents.ATTRIBUTE_MODIFIERS,
             ItemAttributeModifiers.EMPTY
         );
         ItemAttributeModifiers.Builder builder = ItemAttributeModifiers.builder();
         existing.modifiers().forEach(entry -> {
-            if (!entry.modifier().id().equals(FUSE_MODIFIER_ID)) {
+            Identifier id = entry.modifier().id();
+            if (!id.equals(FUSE_MODIFIER_ID) && !id.equals(FUSE_MINING_MODIFIER_ID)) {
                 builder.add(entry.attribute(), entry.modifier(), entry.slot());
             }
         });
-        weapon.set(DataComponents.ATTRIBUTE_MODIFIERS, builder.build());
+        equipment.set(DataComponents.ATTRIBUTE_MODIFIERS, builder.build());
 
+        // 归还材料：背包满则掉落脚边，不取消解融
         Item materialItem = BuiltInRegistries.ITEM.getValue(fuseData.materialId());
         if (materialItem != null && materialItem != Items.AIR) {
             ItemStack returnStack = new ItemStack(materialItem, 1);
@@ -206,11 +218,52 @@ public final class FuseHandler {
         target.hurtMarked = true;
     }
 
-    private static boolean isWeapon(ItemStack stack) {
+    // =========================================================================
+    // 辅助判断（均基于 ItemTag，兼容 MC 1.21.11 移除具体 Item 子类的变更）
+    // =========================================================================
+
+    /**
+     * 是否为可融合的装备类型（Phase A：武器 + 挖掘工具 + 盾牌）。
+     */
+    public static boolean isFuseableEquipment(ItemStack stack) {
         if (stack.isEmpty()) return false;
+        return isWeaponLike(stack)
+            || isToolLike(stack)
+            || stack.getItem() instanceof ShieldItem;
+    }
+
+    /**
+     * 武器类：剑、斧、三叉戟 → 攻击力加成分支。
+     * 注：AxeItem 仍存在于 1.21.11，用 instanceof 判断；
+     * 剑和三叉戟使用 Tag 和 instanceof 双保险。
+     */
+    private static boolean isWeaponLike(ItemStack stack) {
         return stack.is(ItemTags.SWORDS)
-            || stack.getItem() instanceof AxeItem
+            || stack.is(ItemTags.AXES)
             || stack.getItem() instanceof TridentItem;
+    }
+
+    /**
+     * 挖掘工具（非斧，非武器）：镐、锹、锄 → 挖掘效率加成分支。
+     * 用 Tag 判断，不依赖已移除的 DiggerItem 类。
+     */
+    private static boolean isToolLike(ItemStack stack) {
+        return stack.is(ItemTags.PICKAXES)
+            || stack.is(ItemTags.SHOVELS)
+            || stack.is(ItemTags.HOES);
+    }
+
+    /** 生成 actionbar 显示的加成描述，随装备类型变化 */
+    private static String buildBonusInfo(ItemStack equipment, FuseMaterialBonus bonus) {
+        if (isWeaponLike(equipment)) {
+            return bonus.attackBonus() > 0
+                ? String.format("+%.0f atk", bonus.attackBonus()) : "fused";
+        }
+        if (isToolLike(equipment)) {
+            return bonus.miningSpeedBonus() > 0
+                ? String.format("+%.1f spd", bonus.miningSpeedBonus()) : "fused";
+        }
+        return "cosmetic";  // 盾牌
     }
 
     private FuseHandler() {}

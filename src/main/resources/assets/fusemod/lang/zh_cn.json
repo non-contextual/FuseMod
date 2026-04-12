@@ -1,8 +1,8 @@
 {
-  "fusemod.fuse.success": "融合成功：%s → %s（攻击力 %s）",
-  "fusemod.fuse.already_fused": "武器已有融合材料，先下蹲+右键解除融合。",
-  "fusemod.fuse.invalid_material": "这种材料无法融合到武器上。",
-  "fusemod.fuse.not_a_weapon": "只能融合到剑、斧或三叉戟上。",
+  "fusemod.fuse.success": "融合：%s → %s [%s]",
+  "fusemod.fuse.already_fused": "已有融合材料，先下蹲+右键解除融合。",
+  "fusemod.fuse.invalid_material": "这种材料无法融合。",
+  "fusemod.fuse.not_a_weapon": "只能融合到武器、工具或盾牌上。",
   "fusemod.unfuse.success": "解除融合，材料已归还背包。",
   "fusemod.tooltip.fused": "已融合：%s",
   "fusemod.tooltip.hint": "[下蹲+右键 解除融合]",

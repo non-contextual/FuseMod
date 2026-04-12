@@ -36,10 +36,11 @@ public class FuseMaterialRegistry {
                 String key = entry.getKey();
                 if (key.startsWith("_")) continue;
                 JsonObject data = entry.getValue().getAsJsonObject();
-                double attackBonus = data.has("attack_bonus") ? data.get("attack_bonus").getAsDouble() : 0;
-                int fireTicks     = data.has("fire_ticks")    ? data.get("fire_ticks").getAsInt()    : 0;
-                int knockback     = data.has("knockback")     ? data.get("knockback").getAsInt()     : 0;
-                BONUSES.put(key, new FuseMaterialBonus(attackBonus, fireTicks, knockback));
+                double attackBonus      = data.has("attack_bonus")       ? data.get("attack_bonus").getAsDouble()       : 0;
+                int fireTicks           = data.has("fire_ticks")         ? data.get("fire_ticks").getAsInt()            : 0;
+                int knockback           = data.has("knockback")          ? data.get("knockback").getAsInt()             : 0;
+                double miningSpeedBonus = data.has("mining_speed_bonus") ? data.get("mining_speed_bonus").getAsDouble() : 0.0;
+                BONUSES.put(key, new FuseMaterialBonus(attackBonus, fireTicks, knockback, miningSpeedBonus));
                 count++;
             }
             FuseModMain.LOGGER.info("[FuseMod] 加载了 {} 种可融合材料", count);
