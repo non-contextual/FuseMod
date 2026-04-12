@@ -1,0 +1,29 @@
+{
+  "_comment": "参考 TotK 的 fuse_attack_power 数据表。每种材料映射到一组加成属性。",
+  "_fields": {
+    "attack_bonus": "叠加到武器基础攻击力的数值（对应 TotK 的 fuse_attack_power）",
+    "fire_ticks":   "命中时点燃目标的持续 tick（20 tick = 1 秒），0 表示无火焰效果",
+    "knockback":    "额外击退等级，0 表示无"
+  },
+
+  "minecraft:bone":            { "attack_bonus": 4,  "fire_ticks": 0,  "knockback": 0 },
+  "minecraft:blaze_rod":       { "attack_bonus": 4,  "fire_ticks": 40, "knockback": 0 },
+  "minecraft:blaze_powder":    { "attack_bonus": 2,  "fire_ticks": 20, "knockback": 0 },
+  "minecraft:flint":           { "attack_bonus": 2,  "fire_ticks": 0,  "knockback": 0 },
+  "minecraft:iron_ingot":      { "attack_bonus": 2,  "fire_ticks": 0,  "knockback": 0 },
+  "minecraft:gold_ingot":      { "attack_bonus": 1,  "fire_ticks": 0,  "knockback": 0 },
+  "minecraft:diamond":         { "attack_bonus": 5,  "fire_ticks": 0,  "knockback": 0 },
+  "minecraft:emerald":         { "attack_bonus": 3,  "fire_ticks": 0,  "knockback": 1 },
+  "minecraft:obsidian":        { "attack_bonus": 6,  "fire_ticks": 0,  "knockback": 0 },
+  "minecraft:netherite_ingot": { "attack_bonus": 8,  "fire_ticks": 0,  "knockback": 0 },
+  "minecraft:prismarine_shard":{ "attack_bonus": 3,  "fire_ticks": 0,  "knockback": 0 },
+  "minecraft:prismarine_crystals": { "attack_bonus": 2, "fire_ticks": 0, "knockback": 0 },
+  "minecraft:ender_pearl":     { "attack_bonus": 3,  "fire_ticks": 0,  "knockback": 2 },
+  "minecraft:nether_star":     { "attack_bonus": 10, "fire_ticks": 0,  "knockback": 3 },
+  "minecraft:wither_skeleton_skull": { "attack_bonus": 7, "fire_ticks": 0, "knockback": 0 },
+  "minecraft:spider_eye":      { "attack_bonus": 1,  "fire_ticks": 0,  "knockback": 0 },
+  "minecraft:magma_cream":     { "attack_bonus": 3,  "fire_ticks": 30, "knockback": 0 },
+  "minecraft:ghast_tear":      { "attack_bonus": 2,  "fire_ticks": 0,  "knockback": 0 },
+  "minecraft:shulker_shell":   { "attack_bonus": 4,  "fire_ticks": 0,  "knockback": 1 },
+  "minecraft:dragon_breath":   { "attack_bonus": 5,  "fire_ticks": 20, "knockback": 0 }
+}

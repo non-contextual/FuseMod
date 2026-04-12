@@ -1,0 +1,10 @@
+{
+  "fusemod.fuse.success": "Fused %s to %s! (%s attack)",
+  "fusemod.fuse.already_fused": "Already fused. Sneak + right-click to unfuse first.",
+  "fusemod.fuse.invalid_material": "This material cannot be fused.",
+  "fusemod.fuse.not_a_weapon": "Can only fuse to swords, axes, and tridents.",
+  "fusemod.unfuse.success": "Unfused. Material returned.",
+  "fusemod.tooltip.fused": "Fused: %s",
+  "fusemod.tooltip.hint": "[Sneak + Right-Click to unfuse]",
+  "fusemod.tooltip.how_to_fuse": "Hold material in off-hand, sneak + right-click to fuse"
+}

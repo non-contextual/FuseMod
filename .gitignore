@@ -1,0 +1,21 @@
+# Gradle
+.gradle/
+build/
+
+# IntelliJ IDEA
+.idea/
+*.iml
+*.iws
+*.ipr
+out/
+
+# Fabric loom cache (generated, not source)
+.loom/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# One-off helper scripts (not part of mod source)
+dl_gradle.ps1
+extract_gradle.ps1
