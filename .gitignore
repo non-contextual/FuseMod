@@ -19,3 +19,9 @@ Thumbs.db
 # One-off helper scripts (not part of mod source)
 dl_gradle.ps1
 extract_gradle.ps1
+
+# Claude Code local memory (not part of mod source)
+.claude/
+
+# Minecraft run directory (generated at runtime)
+run/
