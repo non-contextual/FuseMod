@@ -4,7 +4,7 @@
   "version": "${version}",
 
   "name": "FuseMod",
-  "description": "Adds a Fuse mechanic inspired by Zelda: Tears of the Kingdom. Combine weapons with materials to boost attack.",
+  "description": "Adds a Fuse mechanic inspired by Zelda: Tears of the Kingdom. Combine weapons, tools, shields, and arrows with materials for combat bonuses and special arrow effects.",
   "authors": ["milazy"],
   "contact": {},
 
@@ -16,7 +16,7 @@
     "client": ["net.milazy.fusemod.FuseModClient"]
   },
 
-  "mixins": [],
+  "mixins": ["fusemod.mixins.json"],
 
   "depends": {
     "fabricloader": ">=0.15.0",

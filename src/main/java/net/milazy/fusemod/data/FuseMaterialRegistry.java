@@ -40,7 +40,10 @@ public class FuseMaterialRegistry {
                 int fireTicks           = data.has("fire_ticks")         ? data.get("fire_ticks").getAsInt()            : 0;
                 int knockback           = data.has("knockback")          ? data.get("knockback").getAsInt()             : 0;
                 double miningSpeedBonus = data.has("mining_speed_bonus") ? data.get("mining_speed_bonus").getAsDouble() : 0.0;
-                BONUSES.put(key, new FuseMaterialBonus(attackBonus, fireTicks, knockback, miningSpeedBonus));
+                String arrowEffect      = data.has("arrow_effect") && !data.get("arrow_effect").isJsonNull()
+                                          ? data.get("arrow_effect").getAsString() : null;
+                int arrowEffectParam    = data.has("arrow_effect_param") ? data.get("arrow_effect_param").getAsInt() : 0;
+                BONUSES.put(key, new FuseMaterialBonus(attackBonus, fireTicks, knockback, miningSpeedBonus, arrowEffect, arrowEffectParam));
                 count++;
             }
             FuseModMain.LOGGER.info("[FuseMod] 加载了 {} 种可融合材料", count);

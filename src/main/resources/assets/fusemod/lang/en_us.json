@@ -4,7 +4,20 @@
   "fusemod.fuse.invalid_material": "This material cannot be fused.",
   "fusemod.fuse.not_a_weapon": "Can only fuse to weapons, tools, or shields.",
   "fusemod.unfuse.success": "Unfused. Material returned.",
-  "fusemod.tooltip.fused": "Fused: %s",
   "fusemod.tooltip.hint": "[Sneak + Right-Click to unfuse]",
-  "fusemod.tooltip.how_to_fuse": "Hold material in off-hand, sneak + right-click to fuse"
+  "fusemod.tooltip.how_to_fuse": "Hold material in off-hand, sneak + right-click to fuse",
+
+  "item.fusemod.fused_arrow": "Fused Arrow",
+  "fusemod.arrow.fused": "Fused Arrow: %s",
+  "fusemod.arrow.tooltip.effect.teleport": "Teleport to landing point",
+  "fusemod.arrow.tooltip.effect.lightning": "Summons lightning on impact",
+  "fusemod.arrow.tooltip.effect.homing": "Homes toward nearest enemy",
+  "fusemod.arrow.tooltip.effect.scatter": "Splits into 3 arrows on impact",
+  "fusemod.arrow.tooltip.effect.web": "Places a cobweb on impact",
+  "fusemod.arrow.tooltip.effect.bounce": "Bounces off walls (up to 3x)",
+  "fusemod.arrow.tooltip.effect.nova": "Explosion + Wither II on impact",
+  "fusemod.arrow.tooltip.effect.wither": "Applies Wither II to target",
+  "fusemod.arrow.tooltip.no_effect": "(no arrow effect yet)",
+  "fusemod.arrow.tooltip.fires_from_bow": "[Fires from any bow or crossbow]",
+  "fusemod.arrow.tooltip.how_to_make": "Hold material in off-hand + arrow in main hand, sneak + right-click"
 }
