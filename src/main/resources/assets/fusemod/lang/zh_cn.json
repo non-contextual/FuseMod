@@ -4,7 +4,20 @@
   "fusemod.fuse.invalid_material": "这种材料无法融合。",
   "fusemod.fuse.not_a_weapon": "只能融合到武器、工具或盾牌上。",
   "fusemod.unfuse.success": "解除融合，材料已归还背包。",
-  "fusemod.tooltip.fused": "已融合：%s",
   "fusemod.tooltip.hint": "[下蹲+右键 解除融合]",
-  "fusemod.tooltip.how_to_fuse": "副手持材料，下蹲+右键 即可融合"
+  "fusemod.tooltip.how_to_fuse": "副手持材料，下蹲+右键 即可融合",
+
+  "item.fusemod.fused_arrow": "融合箭",
+  "fusemod.arrow.fused": "融合箭：%s",
+  "fusemod.arrow.tooltip.effect.teleport": "传送到落点",
+  "fusemod.arrow.tooltip.effect.lightning": "命中时召唤闪电",
+  "fusemod.arrow.tooltip.effect.homing": "追踪最近的敌对生物",
+  "fusemod.arrow.tooltip.effect.scatter": "命中时分裂为3支箭",
+  "fusemod.arrow.tooltip.effect.web": "命中时放置蜘蛛网",
+  "fusemod.arrow.tooltip.effect.bounce": "可弹射墙壁（最多3次）",
+  "fusemod.arrow.tooltip.effect.nova": "命中时爆炸并附加凋零效果",
+  "fusemod.arrow.tooltip.effect.wither": "对目标施加凋零II",
+  "fusemod.arrow.tooltip.no_effect": "（暂无箭矢特效）",
+  "fusemod.arrow.tooltip.fires_from_bow": "[可用任意弓或弩发射]",
+  "fusemod.arrow.tooltip.how_to_make": "副手持材料，主手持箭，下蹲+右键合成"
 }

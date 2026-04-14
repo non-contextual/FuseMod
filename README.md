@@ -91,6 +91,33 @@ Materials not listed in the mining table have no mining bonus (e.g., Blaze Rod g
 
 ---
 
+## Arrow Fusion
+
+Fuse a material directly onto an arrow to fire special projectiles from any bow or crossbow.
+
+**Craft a Fused Arrow** — Hold a fuseable material in your off-hand and a plain arrow in your main hand, then **Sneak + Right-Click**. Consumes 1 arrow and 1 material.
+
+**Fire on the fly** — Hold a fuseable material in your off-hand while drawing a bow or crossbow. The fused arrow fires automatically, consuming the material each shot.
+
+Fused Arrows are normal arrow items that stack to 64 and can be picked up after firing.
+
+### Arrow Effects
+
+| Material | Effect |
+|---|---|
+| Ender Pearl | **Teleport** — shooter teleports to the landing point |
+| Lightning Rod | **Lightning** — strikes lightning on impact; chains to nearby mobs in rain |
+| Echo Shard | **Homing** — steers toward the nearest hostile mob (radius 12) |
+| Prismarine Shard | **Scatter** — splits into 3 arrows on impact |
+| String | **Web** — places a cobweb at the impact point (disappears after 15 s) |
+| Slime Ball | **Bounce** — ricochets off walls, up to 3 times |
+| Nether Star | **Nova** — non-destructive explosion + Wither I to nearby mobs |
+| Wither Skeleton Skull | **Wither** — applies Wither II (5 s) to the target |
+
+Materials without an arrow effect still have a colored tint and carry their attack/fire/knockback bonuses when fused to melee weapons.
+
+---
+
 ## Tooltip
 
 Fused items show a **Fused: `<material>` [bonus]** line in gold/yellow, plus a reminder of how to unfuse.
@@ -118,9 +145,9 @@ Unfused compatible items show a **"Hold material in off-hand, sneak + right-clic
 ## Building from Source
 
 ```bash
-git clone https://github.com/milazy/fusemod
-cd fusemod
+git clone https://github.com/non-contextual/FuseMod
+cd FuseMod
 ./gradlew build
 ```
 
-Output JAR is at `build/libs/fusemod-1.0.0.jar`.
+Output JAR is at `build/libs/fusemod-1.2.0.jar`.
