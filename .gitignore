@@ -25,3 +25,4 @@ extract_gradle.ps1
 
 # Minecraft run directory (generated at runtime)
 run/
+CLAUDE.md
