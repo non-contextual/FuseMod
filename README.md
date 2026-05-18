@@ -1,5 +1,7 @@
 # FuseMod
 
+> Read this in: English · [简体中文](./README.zh-CN.md)
+>
 > Zelda: Tears of the Kingdom's Fuse mechanic, brought to Minecraft 1.21.11.
 
 Attach materials to your weapons, tools, and shields to gain real combat and mining bonuses. Unfuse anytime to get your material back.
@@ -8,11 +10,11 @@ Attach materials to your weapons, tools, and shields to gain real combat and min
 
 ## How It Works
 
-**Fuse** — Hold a fuseable material in your off-hand, then **Sneak + Right-Click** while holding a compatible weapon, tool, or shield in your main hand.
+**Fuse**: Hold a fuseable material in your off-hand, then **Sneak + Right-Click** while holding a compatible weapon, tool, or shield in your main hand.
 
-**Unfuse** — **Sneak + Right-Click** again with the fused item in your main hand (off-hand can be empty). The material is returned to your inventory, or dropped at your feet if your inventory is full.
+**Unfuse**: **Sneak + Right-Click** again with the fused item in your main hand (off-hand can be empty). The material is returned to your inventory, or dropped at your feet if your inventory is full.
 
-Each item can only hold one fused material at a time. Fusing replaces any existing fusion — unfuse first if you want to swap.
+Each item can only hold one fused material at a time. Fusing replaces any existing fusion. Unfuse first if you want to swap.
 
 ---
 
@@ -34,36 +36,36 @@ Effects are added on top of the item's existing stats, including enchantments an
 
 | Material | Attack | Fire | Knockback |
 |---|---|---|---|
-| Rotten Flesh | +1 | — | — |
-| Spider Eye | +1 | — | — |
-| String | +1 | — | — |
-| Gold Ingot | +1 | — | — |
-| Blaze Powder | +2 | 1s | — |
-| Copper Ingot | +2 | — | — |
-| Flint | +2 | — | — |
-| Iron Ingot | +2 | — | — |
-| Ghast Tear | +2 | — | — |
-| Chorus Fruit | +2 | — | kb+2 |
-| Rabbit Foot | +2 | — | kb+1 |
-| Slime Ball | +1 | — | kb+2 |
-| Prismarine Crystals | +2 | — | — |
-| Magma Cream | +3 | 1.5s | — |
-| Magma Block | +3 | 1s | — |
-| Prismarine Shard | +3 | — | — |
-| Amethyst Shard | +3 | — | — |
-| Emerald | +3 | — | kb+1 |
-| Ender Pearl | +3 | — | kb+2 |
-| Bone | +4 | — | — |
-| Blaze Rod | +4 | 2s | — |
-| Lightning Rod | +4 | — | — |
-| Shulker Shell | +4 | — | kb+1 |
-| Dragon Breath | +5 | 1s | — |
-| Echo Shard | +5 | — | kb+1 |
-| Diamond | +5 | — | — |
-| Obsidian | +6 | — | — |
-| Wither Skeleton Skull | +7 | — | — |
-| Netherite Ingot | +8 | — | — |
-| Nether Star | +10 | — | kb+3 |
+| Rotten Flesh | +1 | . | . |
+| Spider Eye | +1 | . | . |
+| String | +1 | . | . |
+| Gold Ingot | +1 | . | . |
+| Blaze Powder | +2 | 1s | . |
+| Copper Ingot | +2 | . | . |
+| Flint | +2 | . | . |
+| Iron Ingot | +2 | . | . |
+| Ghast Tear | +2 | . | . |
+| Chorus Fruit | +2 | . | kb+2 |
+| Rabbit Foot | +2 | . | kb+1 |
+| Slime Ball | +1 | . | kb+2 |
+| Prismarine Crystals | +2 | . | . |
+| Magma Cream | +3 | 1.5s | . |
+| Magma Block | +3 | 1s | . |
+| Prismarine Shard | +3 | . | . |
+| Amethyst Shard | +3 | . | . |
+| Emerald | +3 | . | kb+1 |
+| Ender Pearl | +3 | . | kb+2 |
+| Bone | +4 | . | . |
+| Blaze Rod | +4 | 2s | . |
+| Lightning Rod | +4 | . | . |
+| Shulker Shell | +4 | . | kb+1 |
+| Dragon Breath | +5 | 1s | . |
+| Echo Shard | +5 | . | kb+1 |
+| Diamond | +5 | . | . |
+| Obsidian | +6 | . | . |
+| Wither Skeleton Skull | +7 | . | . |
+| Netherite Ingot | +8 | . | . |
+| Nether Star | +10 | . | kb+3 |
 
 ### Mining Efficiency Bonus (on tools)
 
@@ -95,9 +97,9 @@ Materials not listed in the mining table have no mining bonus (e.g., Blaze Rod g
 
 Fuse a material directly onto an arrow to fire special projectiles from any bow or crossbow.
 
-**Craft a Fused Arrow** — Hold a fuseable material in your off-hand and a plain arrow in your main hand, then **Sneak + Right-Click**. Consumes 1 arrow and 1 material.
+**Craft a Fused Arrow**: Hold a fuseable material in your off-hand and a plain arrow in your main hand, then **Sneak + Right-Click**. Consumes 1 arrow and 1 material.
 
-**Fire on the fly** — Hold a fuseable material in your off-hand while drawing a bow or crossbow. The fused arrow fires automatically, consuming the material each shot.
+**Fire on the fly**: Hold a fuseable material in your off-hand while drawing a bow or crossbow. The fused arrow fires automatically, consuming the material each shot.
 
 Fused Arrows are normal arrow items that stack to 64 and can be picked up after firing.
 
@@ -105,14 +107,14 @@ Fused Arrows are normal arrow items that stack to 64 and can be picked up after 
 
 | Material | Effect |
 |---|---|
-| Ender Pearl | **Teleport** — shooter teleports to the landing point |
-| Lightning Rod | **Lightning** — strikes lightning on impact; chains to nearby mobs in rain |
-| Echo Shard | **Homing** — steers toward the nearest hostile mob (radius 12) |
-| Prismarine Shard | **Scatter** — splits into 3 arrows on impact |
-| String | **Web** — places a cobweb at the impact point (disappears after 15 s) |
-| Slime Ball | **Bounce** — ricochets off walls, up to 3 times |
-| Nether Star | **Nova** — non-destructive explosion + Wither I to nearby mobs |
-| Wither Skeleton Skull | **Wither** — applies Wither II (5 s) to the target |
+| Ender Pearl | **Teleport**: shooter teleports to the landing point |
+| Lightning Rod | **Lightning**: strikes lightning on impact; chains to nearby mobs in rain |
+| Echo Shard | **Homing**: steers toward the nearest hostile mob (radius 12) |
+| Prismarine Shard | **Scatter**: splits into 3 arrows on impact |
+| String | **Web**: places a cobweb at the impact point (disappears after 15 s) |
+| Slime Ball | **Bounce**: ricochets off walls, up to 3 times |
+| Nether Star | **Nova**: non-destructive explosion + Wither I to nearby mobs |
+| Wither Skeleton Skull | **Wither**: applies Wither II (5 s) to the target |
 
 Materials without an arrow effect still have a colored tint and carry their attack/fire/knockback bonuses when fused to melee weapons.
 
@@ -128,7 +130,7 @@ Unfused compatible items show a **"Hold material in off-hand, sneak + right-clic
 
 ## Roadmap
 
-**v1.2.0 — Visual Fusion**
+**v1.2.0: Visual Fusion**
 - Fused items get a visual model overlay (the material appears attached to the weapon/tool)
 - Shield fusion receives actual damage-reduction effects
 
@@ -151,3 +153,9 @@ cd FuseMod
 ```
 
 Output JAR is at `build/libs/fusemod-1.2.0.jar`.
+
+---
+
+## License
+
+MIT
